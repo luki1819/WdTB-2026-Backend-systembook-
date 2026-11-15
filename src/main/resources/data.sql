@@ -22,13 +22,28 @@ insert into conference_room (name, capacity, floor_number, hourly_rate, has_proj
                                                                                            ('Sala Rynek',   4, 1,  80.00, false);
 
 -- ===== LAB 02 · client =====
-insert into client (company_name, contact_person, email, phone, street, city, postal_code) values
-                                                                                               ('Nowak Consulting', 'Marek Nowak',    'marek@nowak-consulting.pl', '600111222', 'Świdnicka 10',  'Wrocław', '50-066'),
-                                                                                               ('Studio Pixel',     'Anna Zielińska', 'anna@studiopixel.pl',       null,        'Ruska 5/2',     'Wrocław', '50-079'),
-                                                                                               ('Freelancer Piotr', 'Piotr Lis',      'piotr.lis@example.com',     '600333444', null,            null,      null);
+-- user_account_id: numer konta z sekcji user_account (3 = Firma)
+insert into client (company_name, contact_person, email, phone, street, city, postal_code, user_account_id) values
+                                                                                                                ('Nowak Consulting', 'Marek Nowak',    'marek@nowak-consulting.pl', '600111222', 'Świdnicka 10',  'Wrocław', '50-066', 3),
+                                                                                                                ('Studio Pixel',     'Anna Zielińska', 'anna@studiopixel.pl',       null,        'Ruska 5/2',     'Wrocław', '50-079', null),
+                                                                                                                ('Freelancer Piotr', 'Piotr Lis',      'piotr.lis@example.com',     '600333444', null,            null,      null,     null);
+
+-- ===== LAB 03 · amenity =====
+insert into amenity (name, description, unit_price, available) values
+                                                                   ('Projektor',       'Projektor z ekranem',       50.00, true),
+                                                                   ('Przerwa kawowa',  'Kawa, herbata i ciastka',   15.00, true),
+                                                                   ('Flipchart',       null,                        20.00, true);
 
 -- ===== LAB 02 · booking =====
-insert into booking (title, status, attendees, created_at, start_time, end_time) values
-                                                                                     ('Spotkanie zarządu',     'CONFIRMED', 6,  '2026-11-10 09:00:00', '2026-11-18 10:00:00', '2026-11-18 12:00:00'),
-                                                                                     ('Warsztat projektowy',   'PENDING',   15, '2026-11-11 08:30:00', '2026-11-20 13:00:00', '2026-11-20 17:00:00'),
-                                                                                     ('Rozmowa rekrutacyjna',  'CANCELLED', 3,  '2026-11-09 14:15:00', '2026-11-19 09:00:00', '2026-11-19 10:00:00');
+-- room_id: numer sali z sekcji conference_room, client_id: numer klienta z sekcji client
+insert into booking (title, status, attendees, created_at, start_time, end_time, room_id, client_id) values
+                                                                                                         ('Spotkanie zarządu',     'CONFIRMED', 6,  '2026-11-10 09:00:00', '2026-11-18 10:00:00', '2026-11-18 12:00:00', 1, 1),
+                                                                                                         ('Warsztat projektowy',   'PENDING',   15, '2026-11-11 08:30:00', '2026-11-20 13:00:00', '2026-11-20 17:00:00', 2, 2),
+                                                                                                         ('Rozmowa rekrutacyjna',  'CANCELLED', 3,  '2026-11-09 14:15:00', '2026-11-19 09:00:00', '2026-11-19 10:00:00', 3, 3);
+
+-- ===== LAB 03 · booking_amenity =====
+-- booking_id i amenity_id wskazują wiersze z sekcji powyżej
+insert into booking_amenity (booking_id, amenity_id, quantity, note) values
+                                                                         (1, 1, 1, null),
+                                                                         (2, 2, 15, 'dwie osoby bez laktozy'),
+                                                                         (2, 3, 2, null);
