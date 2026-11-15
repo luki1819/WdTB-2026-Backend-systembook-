@@ -1,6 +1,7 @@
 package pl.wsb.systembook.client.entity;
 
 import jakarta.persistence.*;
+import pl.wsb.systembook.account.domain.UserAccount;
 
 @Entity
 @Table(name = "client")
@@ -25,16 +26,21 @@ public class Client {
     @Embedded
     private Address address;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_account_id")
+    private UserAccount account;
+
     protected Client() {
     }
 
     public Client(String companyName, String contactPerson, String email,
-                  String phone, Address address) {
+                  String phone, Address address, UserAccount account) {
         this.companyName = companyName;
         this.contactPerson = contactPerson;
         this.email = email;
         this.phone = phone;
         this.address = address;
+        this.account = account;
     }
 
     public Long getId() {
@@ -59,5 +65,9 @@ public class Client {
 
     public Address getAddress() {
         return address;
+    }
+
+    public UserAccount getAccount() {
+        return account;
     }
 }

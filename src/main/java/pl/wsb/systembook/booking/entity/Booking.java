@@ -1,6 +1,9 @@
 package pl.wsb.systembook.booking.entity;
 
 import jakarta.persistence.*;
+import pl.wsb.systembook.client.entity.Client;
+import pl.wsb.systembook.room.entity.ConferenceRoom;
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,16 +30,27 @@ public class Booking {
     @Embedded
     private TimeSlot timeSlot;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "room_id", nullable = false)
+    private ConferenceRoom room;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "client_id", nullable = false)
+    private Client client;
+
     protected Booking() {
     }
 
     public Booking(String title, BookingStatus status, Integer attendees,
-                   LocalDateTime createdAt, TimeSlot timeSlot) {
+                   LocalDateTime createdAt, TimeSlot timeSlot,
+                   ConferenceRoom room, Client client) {
         this.title = title;
         this.status = status;
         this.attendees = attendees;
         this.createdAt = createdAt;
         this.timeSlot = timeSlot;
+        this.room = room;
+        this.client = client;
     }
 
     public Long getId() {
@@ -61,5 +75,13 @@ public class Booking {
 
     public TimeSlot getTimeSlot() {
         return timeSlot;
+    }
+
+    public ConferenceRoom getRoom() {
+        return room;
+    }
+
+    public Client getClient() {
+        return client;
     }
 }

@@ -1,7 +1,11 @@
 package pl.wsb.systembook.room.entity;
 
 import jakarta.persistence.*;
+import pl.wsb.systembook.booking.entity.Booking;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "conference_room")
@@ -25,6 +29,9 @@ public class ConferenceRoom {
 
     @Column(name = "has_projector", nullable = false)
     private Boolean hasProjector;
+
+    @OneToMany(mappedBy = "room")
+    private List<Booking> bookings = new ArrayList<>();
 
     protected ConferenceRoom() {
     }
@@ -60,5 +67,9 @@ public class ConferenceRoom {
 
     public Boolean getHasProjector() {
         return hasProjector;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
     }
 }
